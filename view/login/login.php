@@ -21,7 +21,13 @@
           $response = file_get_contents(HTTP_BASE . '/controller/Seg_usuarioLoginController.php', false, $context);
           $result = json_decode($response, true);
           var_dump($result);
-      
+          if ($result["ESTADO"] && $result["NRO"]==1) {
+            echo '<script>alert("Acceso Autorizado");</script>';
+            echo '<script>window.location.href ="' . HTTP_BASE . '/seg/seg_modulo/list"</script>';
+        } else {
+
+            echo '<script>alert("Acceso no Autorizado");</script>';
+        }
          
         } catch (Exception $e) {
           echo '<script>alert("Ocurrió un error al guardar.");</script>';
@@ -62,7 +68,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="pswd">
+          <input type="password" class="form-control" placeholder="Password" name="psw">
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
@@ -101,7 +107,7 @@
         <a href="forgot-password.html">I forgot my password</a>
       </p>
       <p class="mb-0">
-        <a href="register.html" class="text-center">Register a new membership</a>
+        <a href="<?php echo HTTP_BASE; ?>/login/register" class="text-center">Registrar</a>
       </p>
     </div>
     <!-- /.login-card-body -->

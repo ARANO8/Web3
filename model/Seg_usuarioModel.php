@@ -1,5 +1,4 @@
 <?php
-/*Generate By AlanC , Date: 20210719*/
 include_once "../core/ModeloBasePDO.php";
 class Seg_usuarioModel extends ModeloBasePDO {
 public function __construct() { 
@@ -115,5 +114,32 @@ array_push($param, [':p_cod_usu', $p_cod_usu, PDO::PARAM_STR]);
 
  return parent::gdelete($sql, $param);
     }
+
+   public function verificarlogin($p_email, $p_psw){
+      $sql = "SELECT cod_usu,rrhh_cod,prf_cod,email,sw_session,token,ip,login,estado
+      FROM seg_usuario
+      WHERE estado = 'ACTIVO' AND 
+      email = :p_email AND 
+      psw = :p_psw";
+      $param = array();
+      array_push($param, [':p_email', $p_email, PDO::PARAM_STR]);
+      array_push($param, [':p_psw', $p_psw, PDO::PARAM_STR]);
+      return parent::gselect($sql, $param);
+   }
+   public function register($p_cod_usu, $p_psw, $p_email, $p_estado, $p_usu_cre)
+   {
+      $sql = " INSERT INTO seg_usuario
+   
+         (cod_usu,psw,email,estado,usu_cre,fh_cre) 
+   VALUES (:p_cod_usu,:p_psw,:p_email,:p_estado,:p_usu_cre,now()) ";
+      $param = array();
+      array_push($param, [':p_cod_usu', $p_cod_usu, PDO::PARAM_STR]);
+      array_push($param, [':p_psw', $p_psw, PDO::PARAM_STR]);
+      array_push($param, [':p_email', $p_email, PDO::PARAM_STR]);
+      array_push($param, [':p_estado', $p_estado, PDO::PARAM_STR]);
+      array_push($param, [':p_usu_cre', $p_usu_cre, PDO::PARAM_STR]);
+      return parent::ginsert($sql, $param);
+   }
+   
 } 
  ?>

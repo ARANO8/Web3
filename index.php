@@ -13,6 +13,7 @@ function home()
 }
 function login()
 {
+    session_destroy();
     http_response_code(404);
     require ROOT_DIR . '/view/login/login.php';
     exit;
@@ -23,6 +24,13 @@ function error404()
     require ROOT_DIR . '/view/home.php';
     exit;
 }
+function verificarlogin()
+{
+    if (!isset($_SESSION['login']["cod_usu"])) {
+        echo '<script>window.location.href ="' . HTTP_BASE . '/login/login"</script>';
+        login();
+    }
+}
 
 if ($segments[0] === 'appweb') {
     switch ($segments[1] ?? '') {
@@ -30,6 +38,10 @@ if ($segments[0] === 'appweb') {
             switch ($segments[2] ?? '') {
                 case 'login':
                     require ROOT_DIR . '/view/login/login.php';
+                    break;
+                case 'logout':
+                    session_destroy();
+                    echo '<script>window.location.href ="' . HTTP_BASE . '/login/login"</script>';
                     break;
                 case 'register':
                     require ROOT_DIR . '/view/login/register.php';
@@ -40,6 +52,7 @@ if ($segments[0] === 'appweb') {
             }
             break;
         case 'seg':
+            verificarlogin();
             switch ($segments[2] ?? '') {
                 case 'seg_modulo':
                     switch ($segments[3] ?? '') {
@@ -78,6 +91,7 @@ if ($segments[0] === 'appweb') {
             }
             break;
         case 'admin':
+            verificarlogin();
             switch ($segments[2] ?? '') {
                 case 'login':
                     login();
@@ -95,9 +109,10 @@ if ($segments[0] === 'appweb') {
             }
             break;
         case 'con':
-
+            verificarlogin();
             break;
         default:
+            verificarlogin();
             home();
             break;
     }

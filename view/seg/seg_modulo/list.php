@@ -6,10 +6,11 @@ $items_per_page = 10;
 $total_pages = 1;
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $page = isset($_POST['page']) ? $_POST['page'] : 1;
-    $filter =  isset($_POST['filter']) ? $_POST['filter'] : '';
+    $filter = urlencode(trim(isset($_POST['filter']) ? $_POST['filter'] : ''));
 }
-$url = HTTP_BASE . "/controller/Seg_moduloController.php?ope=filterSearch&page=" . $page . "&filter=" . $filter;
 
+$url = HTTP_BASE . "/controller/Seg_moduloController.php?ope=filterSearch&page=" . $page . "&filter=" . $filter;
+$filter = urldecode($filter);
 $response = file_get_contents($url);
 $responseData = json_decode($response, true);
 $records = $responseData['DATA'];

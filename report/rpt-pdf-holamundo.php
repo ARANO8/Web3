@@ -1,4 +1,3 @@
-
 <?php
 require_once($_SERVER['DOCUMENT_ROOT'] . "/appweb/config/global.php");
 require(ROOT_CORE.'/fpdf/fpdf.php');
